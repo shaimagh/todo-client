@@ -1,13 +1,27 @@
-import { Button } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 import { Formik } from 'formik';
+import * as Yup from 'yup';
 
 import { InputField } from './InputField';
 
 const defaultInitialValues = { email: '', password: '' };
 
-export function LoginForm({ initialValues = defaultInitialValues, onSubmit }) {
+const validationSchema = Yup.object().shape({
+  email: Yup.string().email().required(),
+  password: Yup.string().min(6).required()
+});
+
+export function LoginForm({
+  initialValues = defaultInitialValues,
+  onSubmit,
+  loading
+}) {
   return (
-    <Formik initialValues={initialValues} onSubmit={onSubmit}>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={onSubmit}
+    >
       {({ handleSubmit }) => (
         <div>
           <InputField
@@ -15,7 +29,7 @@ export function LoginForm({ initialValues = defaultInitialValues, onSubmit }) {
             margin="normal"
             label="Email Address"
             autoComplete="email"
-            autoFocus
+            disabled={loading}
           />
           <InputField
             name="password"
@@ -23,16 +37,19 @@ export function LoginForm({ initialValues = defaultInitialValues, onSubmit }) {
             label="Password"
             type="password"
             autoComplete="current-password"
+            disabled={loading}
           />
-          <Button
+          <LoadingButton
+            type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
             color="secondary"
             onClick={handleSubmit}
+            loading={loading}
           >
             Sign In
-          </Button>
+          </LoadingButton>
         </div>
       )}
     </Formik>
