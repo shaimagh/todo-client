@@ -2,7 +2,7 @@ import { AppBar, Box, Toolbar, Typography, Button } from '@mui/material';
 
 const title = 'Todo';
 
-export function Navbar() {
+export function Navbar({ onLogout }) {
   return (
     <Box sx={styles.container}>
       <AppBar position="static" color="secondary">
@@ -10,7 +10,9 @@ export function Navbar() {
           <Typography variant="h6" component="div" sx={styles.title}>
             {title}
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Button color="inherit" onClick={onLogout}>
+            Logout
+          </Button>
         </Toolbar>
       </AppBar>
     </Box>

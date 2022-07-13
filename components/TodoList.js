@@ -10,10 +10,21 @@ import {
   TablePagination,
   TableRow
 } from '@mui/material';
+import { Edit as IconEdit, Delete as IconDelete } from '@mui/icons-material';
+import { TodoListItemContainer } from '../containers/TodoListItemContainer';
 
 const columns = [
-  { id: '_id', label: 'ID', minWidth: 170 },
-  { id: 'title', label: 'Title', minWidth: 170, format: capitalize },
+  {
+    id: '_id',
+    label: 'ID',
+    minWidth: 170
+  },
+  {
+    id: 'title',
+    label: 'Title',
+    minWidth: 170,
+    format: capitalize
+  },
   {
     id: 'description',
     label: 'Description',
@@ -27,9 +38,20 @@ const columns = [
   }
 ];
 
+const actions = [
+  {
+    key: 'edit',
+    icon: IconEdit
+  },
+  {
+    key: 'delete',
+    icon: IconDelete
+  }
+];
+
 const rowsPerPageOptions = [5, 10, 25, 100];
 
-export function TodoList({ rows }) {
+export function TodoList({ items }) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -48,7 +70,7 @@ export function TodoList({ rows }) {
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-              {columns.map((column) => (
+              {columns?.map((column) => (
                 <TableCell
                   key={column.id}
                   align={column.align}
@@ -57,23 +79,21 @@ export function TodoList({ rows }) {
                   {column.label}
                 </TableCell>
               ))}
+              {actions?.length > 0 && <TableCell>Actions</TableCell>}
             </TableRow>
           </TableHead>
+
           <TableBody>
-            {rows
+            {items
               ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
+              .map((item) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.format ? column.format(value) : value}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
+                  <TodoListItemContainer
+                    key={item._id}
+                    actions={actions}
+                    columns={columns}
+                    item={item}
+                  />
                 );
               })}
           </TableBody>
@@ -82,7 +102,7 @@ export function TodoList({ rows }) {
       <TablePagination
         rowsPerPageOptions={rowsPerPageOptions}
         component="div"
-        count={rows?.length}
+        count={items?.length || 0}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
