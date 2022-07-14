@@ -5,7 +5,7 @@ const title = 'Todo';
 export function Navbar({ onLogout }) {
   return (
     <Box sx={styles.container}>
-      <AppBar position="static" color="secondary">
+      <AppBar position="static" color="primary">
         <Toolbar>
           <Typography variant="h6" component="div" sx={styles.title}>
             {title}

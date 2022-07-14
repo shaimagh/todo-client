@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {
   capitalize,
+  colors,
   Paper,
   Table,
   TableBody,
@@ -11,7 +12,8 @@ import {
   TableRow
 } from '@mui/material';
 import { Edit as IconEdit, Delete as IconDelete } from '@mui/icons-material';
-import { TodoListItemContainer } from '../containers/TodoListItemContainer';
+
+import { TodoListItemContainer } from '../containers';
 
 const columns = [
   {
@@ -34,18 +36,21 @@ const columns = [
   {
     id: 'date',
     label: 'Date',
-    minWidth: 170
+    minWidth: 170,
+    format: (date) => date.substr(0, 10)
   }
 ];
 
 const actions = [
   {
     key: 'edit',
-    icon: IconEdit
+    icon: IconEdit,
+    color: colors.green.A700
   },
   {
     key: 'delete',
-    icon: IconDelete
+    icon: IconDelete,
+    color: colors.red.A700
   }
 ];
 
