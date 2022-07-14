@@ -1,6 +1,7 @@
 import { Alert, Snackbar } from '@mui/material';
 import * as React from 'react';
 import { useRouter } from 'next/router';
+
 import { RegisterForm } from '../components';
 import { useRegister } from '../services';
 

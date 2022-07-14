@@ -4,38 +4,31 @@ import {
   DialogTitle,
   DialogContent,
   DialogContentText,
-  DialogActions,
-  Snackbar,
-  Alert
+  DialogActions
 } from '@mui/material';
 import * as React from 'react';
 import { Portal } from 'react-portal';
+import { useSnackbar } from 'notistack';
+
 import { useDeleteTodo } from '../services';
 
-const anchorOrigin = { vertical: 'bottom', horizontal: 'center' };
-
 export function DeleteTodoAlertDialogContainer({ itemId, open, onClose }) {
-  const [isSnackBarOpen, setSnackBarOpen] = React.useState(false);
+  const { enqueueSnackbar } = useSnackbar();
 
-  const { mutate, status } = useDeleteTodo(itemId);
+  const onCompleted = React.useCallback(
+    () => enqueueSnackbar('Your todo is deleted', { variant: 'success' }),
+    [enqueueSnackbar]
+  );
 
-  const onSnackBarClose = React.useCallback(() => {
-    setSnackBarOpen(false);
-  }, []);
+  const { mutate, status } = useDeleteTodo(itemId, onCompleted);
 
-  const onSubmit = React.useCallback(() => {
+  const onSubmit = React.useCallback(async () => {
     mutate();
   }, [mutate]);
 
   React.useEffect(() => {
-    if (status === 'success') {
-      onClose();
-    }
-  }, [onClose, status]);
-
-  React.useEffect(() => {
-    if (status === 'success' || status === 'error') {
-      setSnackBarOpen(true);
+    if (status === 'error') {
+      enqueueSnackbar('Oups..., an error occurred', { variant: 'error' });
     }
   }, [status]);
 
@@ -43,7 +36,6 @@ export function DeleteTodoAlertDialogContainer({ itemId, open, onClose }) {
     <Portal>
       <Dialog
         open={open}
-        onClose={onClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -62,29 +54,6 @@ export function DeleteTodoAlertDialogContainer({ itemId, open, onClose }) {
           </Button>
         </DialogActions>
       </Dialog>
-      <Snackbar
-        open={isSnackBarOpen}
-        autoHideDuration={3000}
-        onClose={onSnackBarClose}
-        anchorOrigin={anchorOrigin}
-      >
-        <Alert
-          variant="filled"
-          onClose={onSnackBarClose}
-          severity={status === 'error' ? 'error' : 'success'}
-          sx={styles.alert}
-        >
-          {status === 'error'
-            ? 'Oups..., an error occurred'
-            : 'You todo is updated'}
-        </Alert>
-      </Snackbar>
     </Portal>
   );
 }
-
-const styles = {
-  alert: {
-    width: '100%'
-  }
-};
