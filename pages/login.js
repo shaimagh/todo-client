@@ -1,4 +1,12 @@
-import { Avatar, Link, Grid, Box, Container, Typography } from '@mui/material';
+import {
+  Avatar,
+  Grid,
+  Box,
+  Container,
+  Typography,
+  colors
+} from '@mui/material';
+import Link from 'next/link';
 
 import { LoginFormContainer } from '../containers';
 
@@ -18,8 +26,10 @@ export default function SignIn() {
           <LoginFormContainer />
           <Grid container>
             <Grid item xs>
-              <Link href="/signUp" variant="body2" color="#561571">
-                {"Don't have an account? Sign Up"}
+              <Link href="/register" variant="body2">
+                <Typography color={colors.blue.A700} sx={styles.registerLink}>
+                  {"Don't have an account? Sign Up"}
+                </Typography>
               </Link>
             </Grid>
           </Grid>
@@ -38,5 +48,8 @@ const styles = {
   },
   avatar: {
     m: 1
+  },
+  registerLink: {
+    cursor: 'pointer'
   }
 };
