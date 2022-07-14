@@ -5,5 +5,5 @@ import { useTodos } from '../services';
 export function TodoListContainer() {
   const { data } = useTodos();
 
-  return <TodoList rows={data} />;
+  return <TodoList items={data} />;
 }
