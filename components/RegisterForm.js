@@ -1,6 +1,9 @@
 import { LoadingButton } from '@mui/lab';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { InputAdornment, IconButton } from '@mui/material';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import * as React from 'react';
 
 import { InputField } from './InputField';
 
@@ -11,11 +14,17 @@ const validationSchema = Yup.object().shape({
   password: Yup.string().min(6).required()
 });
 
-export function LoginForm({
+export function RegisterForm({
   initialValues = defaultInitialValues,
   onSubmit,
   loading
 }) {
+  const [canShownPassword, setShowPassword] = React.useState(false);
+
+  const toggleShowPassword = React.useCallback(() => {
+    setShowPassword((prev) => !prev);
+  }, []);
+
   return (
     <Formik
       initialValues={initialValues}
@@ -35,9 +44,22 @@ export function LoginForm({
             name="password"
             margin="normal"
             label="Password"
-            type="password"
+            type={canShownPassword ? 'text' : 'password'}
             autoComplete="current-password"
             disabled={loading}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={toggleShowPassword}
+                    edge="end"
+                  >
+                    {canShownPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              )
+            }}
           />
           <LoadingButton
             type="submit"
@@ -48,7 +70,7 @@ export function LoginForm({
             onClick={handleSubmit}
             loading={loading}
           >
-            Sign In
+            Sign Up
           </LoadingButton>
         </div>
       )}

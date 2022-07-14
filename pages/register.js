@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import Link from 'next/link';
 
-import { LoginFormContainer } from '../containers';
+import { RegisterFormContainer } from '../containers';
 
 export default function SignIn() {
   return (
@@ -20,15 +20,15 @@ export default function SignIn() {
         />
 
         <Typography component="h1" variant="h5">
-          Sign In
+          Sign Up
         </Typography>
         <Box component="form" noValidate sx={{ mt: 1 }}>
-          <LoginFormContainer />
+          <RegisterFormContainer />
           <Grid container>
             <Grid item xs>
-              <Link href="/register" variant="body2">
+              <Link href="/login" variant="body2">
                 <Typography color={colors.blue.A700} sx={styles.registerLink}>
-                  {"Don't have an account? Sign Up"}
+                  {'Already have an account? Sign in'}
                 </Typography>
               </Link>
             </Grid>

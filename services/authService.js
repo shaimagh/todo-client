@@ -1,7 +1,11 @@
 import { useMutation } from 'react-query';
 
-import { login } from './apiService';
+import { login, register } from './apiService';
 
 export function useLogin() {
   return useMutation('login', login);
+}
+
+export function useRegister() {
+  return useMutation('register', register);
 }

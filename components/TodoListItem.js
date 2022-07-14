@@ -16,9 +16,9 @@ export function TodoListItem({ item, columns, actions, onActionClick }) {
 
       {actions?.length > 0 && (
         <TableCell>
-          {actions.map(({ key, icon: Icon }) => (
+          {actions.map(({ key, color, icon: Icon }) => (
             <IconButton key={key} onClick={() => onActionClick?.(key)}>
-              <Icon />
+              <Icon sx={{ color }} />
             </IconButton>
           ))}
         </TableCell>

@@ -32,7 +32,7 @@ export function useUpdateTodo(id) {
   });
 }
 
-export function useDeleteTodo(id) {
+export function useDeleteTodo(id, onCompleted) {
   return useMutation('deleteTodo', () => deleteTodo(id), {
     onSuccess: (data) => {
       const previousTodos = queryClient.getQueryData('todos');
@@ -40,6 +40,7 @@ export function useDeleteTodo(id) {
       const todos = previousTodos.filter((todo) => todo._id !== data._id);
 
       queryClient.setQueryData('todos', todos);
+      onCompleted?.();
     }
   });
 }

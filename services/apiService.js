@@ -26,6 +26,12 @@ export async function login(data) {
   return result?.data;
 }
 
+export async function register(data) {
+  const result = await httpClient.post('auth/register', data);
+
+  return result?.data;
+}
+
 export async function getTodos() {
   const result = await httpClient.get('todos');
 

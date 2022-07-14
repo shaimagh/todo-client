@@ -4,3 +4,4 @@ export * from './LoginForm';
 export * from './TodoList';
 export * from './TodoFormDialog';
 export * from './TodoListItem';
+export * from './RegisterForm';
