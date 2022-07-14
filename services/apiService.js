@@ -14,6 +14,8 @@ httpClient.interceptors.response.use(
   async (error) => {
     if (error.response.status === 401) {
       await Router.push('/login');
+    } else {
+      return Promise.reject(error);
     }
   }
 );
@@ -26,6 +28,24 @@ export async function login(data) {
 
 export async function getTodos() {
   const result = await httpClient.get('todos');
+
+  return result?.data;
+}
+
+export async function createTodo(data) {
+  const result = await httpClient.post('todos', data);
+
+  return result?.data;
+}
+
+export async function updateTodo(id, data) {
+  const result = await httpClient.put(`todos/${id}`, data);
+
+  return result?.data;
+}
+
+export async function deleteTodo(id) {
+  const result = await httpClient.delete(`todos/${id}`);
 
   return result?.data;
 }
